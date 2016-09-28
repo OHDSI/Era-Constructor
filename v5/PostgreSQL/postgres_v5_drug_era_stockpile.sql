@@ -32,8 +32,8 @@ WITH cteDrugPreTarget(drug_exposure_id, person_id, ingredient_concept_id, drug_e
 	FROM <schema>.drug_exposure d
 		JOIN <vocabulary_and_concept_schema>.concept_ancestor ca ON ca.descendant_concept_id = d.drug_concept_id
 		JOIN <vocabulary_and_concept_schema>.concept c ON ca.ancestor_concept_id = c.concept_id
-		WHERE c.vocabulary_id = 8 ---8 selects RxNorm from the vocabulary_id
-		AND c.concept_class = 'Ingredient'
+		WHERE c.vocabulary_id = 'RxNorm' 
+		AND c.concept_class_id = 'Ingredient'
 		/* Depending on the needs of your data, you can put more filters on to your code. We assign 0 to unmapped drug_concept_id's, and we found data where days_supply was negative.
 		 * We don't want different drugs put in the same era, so the code below shows how we filtered them out.
  		 * We also don't want negative days_supply, because that will pull our end_date before the start_date due to our second parameter in the COALESCE function.
@@ -136,8 +136,8 @@ ORDER BY person_id, drug_concept_id
 SELECT
 	(SELECT COUNT(*) FROM <schema>.drug_exposure d JOIN <vocabulary_and_concept_schema>.concept_ancestor ca ON ca.descendant_concept_id = d.drug_concept_id
 		JOIN <vocabulary_and_concept_schema>.concept c ON ca.ancestor_concept_id = c.concept_id
-		WHERE c.vocabulary_id = 8 ---8 selects RxNorm from the vocabulary_id
-		AND c.concept_class = 'Ingredient'
+		WHERE c.vocabulary_id = 'RxNorm' 
+		AND c.concept_class_id = 'Ingredient'
 		AND d.drug_concept_id != 0 ---Our unmapped drug_concept_id's are set to 0, so we don't want different drugs wrapped up in the same era
 		AND d.days_supply >= 0) AS count
 	, (SELECT SUM(drug_exposure_count) FROM <schema>.drug_era) AS sum
