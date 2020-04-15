@@ -56,7 +56,7 @@ CREATE TEMPORARY TABLE <schema>.tmp_condition_era_s2 AS
         condition_start_date,
         condition_end_date,
         condition_occurrence_id,
-        SUM(m) OVER (PARTITION BY person_id, condition_concept_id ORDER BY condition_start_date, condition_end_date) AS period_id
+        SUM(np_flag) OVER (PARTITION BY person_id, condition_concept_id ORDER BY condition_start_date, condition_end_date) AS period_id
     FROM
         <schema>.tmp_condition_era_s1
 ;
