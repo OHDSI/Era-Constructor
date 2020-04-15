@@ -68,7 +68,7 @@ SELECT
     person_id,
     condition_concept_id,
     MIN(condition_start_date)   AS condition_era_start_date,
-    MAX(era_end_date)           AS condition_era_end_date,
+    MAX(condition_end_date)     AS condition_era_end_date,
     COUNT(*)                    AS condition_occurrence_count
 FROM
     <schema>.tmp_condition_era_s2
